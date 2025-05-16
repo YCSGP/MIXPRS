@@ -159,4 +159,45 @@ Ensure all placeholders match your actual directory structure and filenames.
 
 #### Step2: MIX-PRS combining weights
 
+This step includes two substeps:
+
+**Step 2.1: Obtain LD-pruned PRS**
+* First, use the subsampled training GWAS obtained from **Step 1**.
+* For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics.
+* Format these aligned, pruned GWAS summary statistics for each method and implement each method according to their respective repositories:
+  * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
+  * [SDPRX](https://github.com/eldronzhou/SDPRX)
+
+Repeat this procedure for each of the four subsampled training GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain beta files similar to the following for each repeat:
+* `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
+* `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
+Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
+
+**Step 2.2: Obtain PRS combining weights**
+* Use the subsampled tuning GWAS and the LD-pruned PRS (beta files) obtained in **Step 2.1**.
+* Default parameters for this step are:
+  * `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
+  * `selection_criterion=NNLS`: uses the Lawson–Hanson Non-Negative Least Squares (NNLS) algorithm for estimating non-negative PRS combining weights.
+
+Run the following command to calculate the optimal PRS combining weights (replace placeholders with your actual paths and filenames). Repeat this step for all four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`):
+```bash
+conda activate MIXPRS
+
+python ${MIXPRS_path}/MIX_linear_weight.py \
+  --ref_dir=${ref_data_path}/1KG \
+  --sst_file=${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt \
+  --pop=${pop} \
+  --prs_beta_file=${JointPRS_EUR_beta_file},${JointPRS_EAS_beta_file},${JointPRS_AFR_beta_file},${JointPRS_SAS_beta_file},${JointPRS_AMR_beta_file},${SDPRX_EUR_beta_file},${SDPRX_EAS_beta_file},${SDPRX_AFR_beta_file},${SDPRX_SAS_beta_file},${SDPRX_AMR_beta_file} \
+  --indep_approx=TRUE \
+  --selection_criterion=NNLS \
+  --out_dir=${output_path}/Final_weight/no_val \
+  --out_name=${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}
+```
+
+After repeating the above command four times, you will obtain four separate PRS combining weight files, each named as follows (incorporating `${pop}`):
+* **PRS combining weights**:
+  `${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
+
+Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your directory structure and filenames.
+
 #### Step3: Obtain MIXPRS
