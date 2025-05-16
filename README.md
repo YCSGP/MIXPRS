@@ -101,14 +101,14 @@ In the following example commands, we assume:
 * The precomputed pruned SNP list provided within the cloned MIXPRS repository (`snplist` folder) is used.
 * GWAS summary statistics are formatted as `${trait}_${pop}_MIXPRS_sumstat.txt`, following the required format specified previously. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
-#### Step1: MIX-GWAS subsampling
-This step partitions a single original GWAS dataset into independent training and tuning GWAS datasets using data fission principles.
+#### Step 1: MIX-GWAS Subsampling
+This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles.
 
 The default parameters for subsampling are:
 * Requires a pruned SNP list (`--prune_snplist`) provided in the MIXPRS repository (`snplist` folder).
 * `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
-* `train_tune_ratio=3`: divides the original GWAS dataset into training (3/4 of samples) and tuning (1/4 of samples) subsets.
-* `repeat=4`: generates four independent training-tuning GWAS summary statistics pairs for robust evaluation.
+* `train_tune_ratio=3`: divides the original GWAS dataset into subsampled training GWAS (3/4 of samples) and subsampled tuning GWAS (1/4 of samples).
+* `repeat=4`: generates four independent subsampled training-tuning GWAS pairs for robust evaluation.
 
 Below is an example command illustrating this step. Replace `${MIXPRS_path}`, `${ref_data_path}`, `${summary_stat_path}`, `${pop}`, `${trait}`, and `${output_path}` with your actual paths and filenames:
 ```bash
@@ -125,8 +125,37 @@ python ${MIXPRS_path}/MIX_subsample2.py \
   --out_dir=${output_path}/subsample/clean \
   --out_name=${trait}_prune_snplist_1
 ```
-Ensure all placeholders match your actual directory structure and filenames.
+This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (with `repeat` from 1 to 4):
 
+* **Subsampled training GWAS**:
+  `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_train_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
+
+* **Subsampled tuning GWAS**:
+  `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
+
+Example format of these generated files (first three lines shown):
+
+**Subsampled training GWAS example**:
+
+```
+SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
+rs3131969   1       754182  A   G   2.669e-01  -3.482222e-03  7.831456e-03 -4.446456e-01  6.565759e-01  74586
+rs1048488   1       760912  C   T   1.161e-01  -3.537603e-03  7.797450e-03 -4.536872e-01  6.500540e-01  85875
+rs1806509   1       853954  C   A   4.137e-01   4.359470e-03  7.256207e-03  6.007918e-01  5.479786e-01  60434
+...
+```
+
+**Subsampled tuning GWAS example**:
+
+```
+SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
+rs3131969   1       754182  A   G   2.669e-01   2.987062e-02  1.356448e-02  2.202121e+00  2.765678e-02  24862
+rs1048488   1       760912  C   T   1.161e-01   1.037583e-02  1.350558e-02  7.682627e-01  4.423312e-01  28625
+rs1806509   1       853954  C   A   4.137e-01   1.163264e-03  1.256812e-02  9.255673e-02  9.262557e-01  20144
+...
+```
+
+Ensure all placeholders match your actual directory structure and filenames.
 
 #### Step2: MIX-PRS combining weights
 
