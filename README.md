@@ -162,8 +162,8 @@ Ensure all placeholders match your actual directory structure and filenames.
 This step includes two substeps:
 
 **Step 2.1: Obtain LD-pruned PRS**
-* First, use the subsampled training GWAS obtained from **Step 1**.
-* For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics.
+* First, use the subsampled training GWAS for the target population obtained from **Step 1**.
+* For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics from their original GWAS summary statistics.
 * Format these aligned, pruned GWAS summary statistics for each method and implement each method according to their respective repositories:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
   * [SDPRX](https://github.com/eldronzhou/SDPRX)
