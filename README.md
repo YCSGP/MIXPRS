@@ -66,7 +66,8 @@ done
 You can adjust these parameters or apply the commands to other genotype datasets according to your analytical needs.
 
 ### 4. Summary Statistics Preparation
-We require the following format for summary statistics input (including the header line):
+We require GWAS summary statistics provided as input to MIXPRS to follow the format below (including the header line):
+
 ```
 SNP         A1  A2  BETA        SE          Z                P      N
 rs3934834   T   C   0.00492590  0.00761858  0.646564057869   0.518  100061
