@@ -2,13 +2,13 @@
 
 MIXPRS is a data fission-based multi-population PRS integration framework designed to effectively combine PRS derived from multiple populations and methods. The MIXPRS pipeline requires **only GWAS summary statistics and LD reference panels**, and involves three main steps (Figure 1):
 
-* **Step 1: MIX-GWAS subsampling**
+* **Step1: MIX-GWAS subsampling**
   Generate independent subsampled training and tuning GWAS datasets.
 
-* **Step 2: MIX-PRS combining weights**
+* **Step2: MIX-PRS combining weights**
   Estimate combining weights using two component methods, **JointPRS-auto** and **SDPRX**, each requiring only GWAS summary statistics and LD reference panels.
 
-* **Step 3: Obtain the final MIXPRS**
+* **Step3: Obtain MIXPRS**
   Calculate the integrated MIXPRS using weights estimated in Step 2.
 
 Detailed implementations of these component methods are available in their respective repositories:
@@ -58,9 +58,10 @@ r2=0.5
 wc=250
 
 for pop in EUR EAS AFR SAS AMR; do
-  plink2 --bfile ./1000g_phase3_data/geno_data/${pop} \
-         --indep-pairwise ${wc} 5 ${r2} \
-         --out ./snplist/${pop}_prune_pval${pval}_r2${r2}_wc${wc}_${i}
+
+plink2 --bfile ./1000g_phase3_data/geno_data/${pop} \
+       --indep-pairwise ${wc} 5 ${r2} \
+       --out ./snplist/${pop}_prune_pval${pval}_r2${r2}_wc${wc}_${i}
 done
 ```
 You can adjust these parameters or apply the commands to other genotype datasets according to your analytical needs.
@@ -84,3 +85,12 @@ Here
 -  `Z`: Z-score (BETA divided by SE).
 -  `P`: P-value of the effect, which is used to calculate the standardized effect size.
 -  `N`: GWAS sample size.
+
+### 5. MIXPRS Implementation
+Below is a step-by-step guide to implementing MIXPRS:
+
+**Step1: MIX-GWAS subsampling**
+
+**Step2: MIX-PRS combining weights**
+
+**Step3: Obtain MIXPRS**
