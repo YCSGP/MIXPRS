@@ -65,3 +65,22 @@ done
 ```
 You can adjust these parameters or apply the commands to other genotype datasets according to your analytical needs.
 
+### 4. Summary Statistics Preparation
+We require the following format for summary statistics input (including the header line):
+```
+SNP	A1	A2	BETA	SE	Z	P	N
+rs3934834	T	C	0.0049259	0.00761858	0.646564057869052	0.518	100061
+rs3766192	C	T	0.00144597	0.00580197	0.249220523373957	0.803	100953
+rs9442372	A	G	0.00261076	0.00586576	0.445084694907395	0.656	98059
+...
+```
+
+Here
+- `SNP`: SNP rsID.
+-  `A1`: Effect allele.
+-  `A2`: Alternative allele.
+-  `BETA`: Effect size of allele A1, which is only used to determine the direction of an association.
+-  `SE`: Standard error of the effect size.
+-  `Z`: Z-score (BETA divided by SE).
+-  `P`: P-value of the effect, which is used to calculate the standardized effect size.
+-  `N`: GWAS sample size.
