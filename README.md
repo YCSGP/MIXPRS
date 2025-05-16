@@ -122,7 +122,7 @@ python ${MIXPRS_path}/MIX_subsample2.py \
   --out_dir=${output_path}/subsample/clean \
   --out_name=${trait}_prune_snplist_1
 ```
-This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (with `repeat` from 1 to 4):
+This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (with `repeat` from 1 to 4):  
 * **Subsampled training GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_train_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
