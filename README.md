@@ -129,7 +129,7 @@ This command generates four pairs of independent subsampled training and tuning 
 * **Subsampled tuning GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
-Example format of these generated files:
+Example format of these generated files:  
 **Subsampled training GWAS example**:
 
 ```
