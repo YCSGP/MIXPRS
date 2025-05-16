@@ -1,13 +1,13 @@
 # MIXPRS
 MIXPRS is a data fission-based multi-population PRS integration framework designed to effectively combine PRS derived from multiple populations and methods. The MIXPRS pipeline requires **only GWAS summary statistics and LD reference panels**, and involves three main steps (Figure 1):
 
-* **Step1: MIX-GWAS subsampling** 
+* **Step1: MIX-GWAS subsampling**  
   Generate independent subsampled training and tuning GWAS datasets.
 
-* **Step2: MIX-PRS combining weights** 
+* **Step2: MIX-PRS combining weights**  
   Estimate combining weights using two component methods, **JointPRS-auto** and **SDPRX**, each requiring only GWAS summary statistics and LD reference panels.
 
-* **Step3: Obtain MIXPRS** 
+* **Step3: Obtain MIXPRS**  
   Calculate the integrated MIXPRS using weights estimated in Step 2.
 
 Detailed implementations of these component methods are available in their respective repositories:
