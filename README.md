@@ -202,33 +202,6 @@ This command generates four PRS combining weights files, named as follows (with 
   `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
 Note: Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your directory structure and filenames.
 
-The current **Step 3** is clear and well-organized, but here are some improvements to further enhance clarity and usability:
-
----
-
-### Suggested improvements for **Step 3**:
-
-**1. Explicitly clarify file naming and consistency**:
-Clearly state that users should maintain the same naming convention and order of beta files and weights files in Step 2 and Step 3.
-
-**2. Clarify repeated commands**:
-You mentioned "after repeating the command four times," but actually, the provided command uses all four weight files simultaneously. Clarify if repeating four times is still necessary. If not, remove this sentence to prevent confusion.
-
-**3. Clearly specify output files**:
-Emphasize the paths explicitly for clarity, as done previously.
-
-**4. Typo corrections**:
-
-* Fix minor typos:
-
-  * "calcualted" → "calculated"
-  * "prs\_beta\_fil" → "prs\_beta\_file"
-  * "orginal" → "original"
-
----
-
-### Revised **Step 3** incorporating suggested improvements:
-
 #### Step3: Obtain MIXPRS
 
 This step includes two substeps:
