@@ -68,7 +68,7 @@ You can adjust these parameters or apply the commands to other genotype datasets
 ### 4. Summary Statistics Preparation
 We require the following format for summary statistics input (including the header line):
 ```
-SNP         A1  A2  BETA        SE          Z                 P      N
+SNP         A1  A2  BETA        SE          Z                P      N
 rs3934834   T   C   0.00492590  0.00761858  0.646564057869   0.518  100061
 rs3766192   C   T   0.00144597  0.00580197  0.249220523374   0.803  100953
 rs9442372   A   G   0.00261076  0.00586576  0.445084694907   0.656  98059
