@@ -161,7 +161,7 @@ This step includes two substeps:
 Repeat this procedure for each of the four subsampled training GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain beta files similar to the following for each repeat (`repeat=1,2,3,4`):
 * `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
 * `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
-> Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
+**>** Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
 
 **Step 2.2: Obtain PRS combining weights**
 * Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **Section 4**.
