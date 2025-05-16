@@ -130,25 +130,23 @@ This command generates four pairs of independent subsampled training and tuning 
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
 Example format of these generated files:  
-**Subsampled training GWAS example**:
+* **Subsampled training GWAS example**:
+  ```
+  SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
+  rs3131969   1       754182  A   G   2.669e-01  -3.482222e-03  7.831456e-03 -4.446456e-01  6.565759e-01  74586
+  rs1048488   1       760912  C   T   1.161e-01  -3.537603e-03  7.797450e-03 -4.536872e-01  6.500540e-01  85875
+  rs1806509   1       853954  C   A   4.137e-01   4.359470e-03  7.256207e-03  6.007918e-01  5.479786e-01  60434
+  ...
+  ```
 
-```
-SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
-rs3131969   1       754182  A   G   2.669e-01  -3.482222e-03  7.831456e-03 -4.446456e-01  6.565759e-01  74586
-rs1048488   1       760912  C   T   1.161e-01  -3.537603e-03  7.797450e-03 -4.536872e-01  6.500540e-01  85875
-rs1806509   1       853954  C   A   4.137e-01   4.359470e-03  7.256207e-03  6.007918e-01  5.479786e-01  60434
-...
-```
-
-**Subsampled tuning GWAS example**:
-
-```
-SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
-rs3131969   1       754182  A   G   2.669e-01   2.987062e-02  1.356448e-02  2.202121e+00  2.765678e-02  24862
-rs1048488   1       760912  C   T   1.161e-01   1.037583e-02  1.350558e-02  7.682627e-01  4.423312e-01  28625
-rs1806509   1       853954  C   A   4.137e-01   1.163264e-03  1.256812e-02  9.255673e-02  9.262557e-01  20144
-...
-```
+* **Subsampled tuning GWAS example**:
+  ```
+  SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
+  rs3131969   1       754182  A   G   2.669e-01   2.987062e-02  1.356448e-02  2.202121e+00  2.765678e-02  24862
+  rs1048488   1       760912  C   T   1.161e-01   1.037583e-02  1.350558e-02  7.682627e-01  4.423312e-01  28625
+  rs1806509   1       853954  C   A   4.137e-01   1.163264e-03  1.256812e-02  9.255673e-02  9.262557e-01  20144
+  ...
+  ```
 
 #### Step2: MIX-PRS combining weights
 This step includes two substeps:
