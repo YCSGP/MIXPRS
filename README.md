@@ -110,13 +110,13 @@ The default parameters for subsampling are:
 * `train_tune_ratio=3`: divides the original GWAS dataset into training (3/4 of samples) and tuning (1/4 of samples) subsets.
 * `repeat=4`: generates four independent training-tuning GWAS summary statistics pairs for robust evaluation.
 
-Below is an example command illustrating this step. Replace `${MIXPRS_path}`, `${ref_data_path}`, `${summary_stats}`, `${pop}`, `${trait}`, and `${output_path}` with your actual paths and filenames:
+Below is an example command illustrating this step. Replace `${MIXPRS_path}`, `${ref_data_path}`, `${summary_stat_path}`, `${pop}`, `${trait}`, and `${output_path}` with your actual paths and filenames:
 ```bash
 conda activate MIXPRS
 
 python ${MIXPRS_path}/MIX_subsample2.py \
   --ref_dir=${ref_data_path}/1KG \
-  --sst_file=${summary_stats}/${trait}_${pop}_MIXPRS_sumstat.txt \
+  --sst_file=${summary_stat_path}/${trait}_${pop}_MIXPRS_sumstat.txt \
   --pop=${pop} \
   --prune_snplist=${MIXPRS_path}/snplist/${pop}_prune_pval1_r20.5_wc250_1.snplist \
   --indep_approx=TRUE \
