@@ -44,3 +44,24 @@ We use reference panels from [PRS-CSx](https://github.com/getian107/PRScsx#getti
 - **UKBB**: This subfolder should contain LD reference panels constructed using the UK Biobank data and the corresponding SNP information file.
 
 Then place the downloaded LD reference panels and the SNP information file into their corresponding subfolders.
+
+### 3. Pruned SNP List Preparation
+In the `MIXPRS` repository, we provide precomputed pruned SNP lists for five populations (EUR, EAS, AFR, SAS, and AMR), derived from genotype data of the Phase-3 1000 Genome Project. These SNP lists were generated using PLINK2 with parameters: window size = 250, step size = 5, and correlation threshold $r^2 = 0.5$.
+
+To replicate our results or generate customized pruned SNP lists, use the following PLINK2 commands:
+```bash
+module load PLINK/2
+
+i=1
+pval=1
+r2=0.5
+wc=250
+
+for pop in EUR EAS AFR SAS AMR; do
+  plink2 --bfile ./1000g_phase3_data/geno_data/${pop} \
+         --indep-pairwise ${wc} 5 ${r2} \
+         --out ./snplist/${pop}_prune_pval${pval}_r2${r2}_wc${wc}_${i}
+done
+```
+You can adjust these parameters or apply the commands to other genotype datasets according to your analytical needs.
+
