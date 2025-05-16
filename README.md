@@ -161,6 +161,7 @@ This step includes two substeps:
 Repeat this procedure for each of the four subsampled training GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain beta files similar to the following for each repeat (`repeat=1,2,3,4`):
 * `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
 * `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
+
 **Note**: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
 
 **Step 2.2: Obtain PRS combining weights**
@@ -190,7 +191,8 @@ python ${MIXPRS_path}/MIX_linear_weight.py \
 
 Repeat this procedure for each of the four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain four PRS combining weights files, named as follows for each repeat (`repeat=1,2,3,4`):
 * **PRS combining weights**:
-  `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`  
+  `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
+
 **Note**: For each repeat (`repeat=1,2,3,4`), ensure you use the corresponding subsampled tuning GWAS dataset from **Step 1** along with its matching LD-pruned PRS beta file obtained from **Step 2.1**.
 
 #### Step3: Obtain MIXPRS
@@ -247,6 +249,7 @@ This command produces two results files in the specified output directory (`${ou
   ```
   ${output_path}/MIXPRS/${trait}_${pop}_MIXPRS_separate.txt
   ```
+
 **Note**: Ensure the order and naming of `--prs_beta_file` are consistent between Step 2.2 and Step 3.2.
 
 ## Acknowledgment
