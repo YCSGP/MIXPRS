@@ -20,7 +20,7 @@ Detailed implementations of these component methods are available in their respe
 </p>
 
 ## Getting Started
-In this section, we will offer step-by-step guidance on MIXPRS implementation.
+In this section, we provide step-by-step guidance for implementing MIXPRS. Please replace all placeholders with paths and file names specific to your computing environment.
 
 ### 1. MIXPRS Installation
 For the first time, you need to use the following code to install MIXPRS:
