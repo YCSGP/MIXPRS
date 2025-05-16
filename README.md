@@ -151,7 +151,7 @@ Example format of these generated subsampled GWAS files:
 #### Step2: MIX-PRS combining weights
 This step includes two substeps:
 
-**Step 2.1: Obtain LD-pruned PRS beta files**
+##### Step 2.1: Obtain LD-pruned PRS beta files
 * Use the subsampled training GWAS for the target population obtained from **Step 1**.
 * For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics from their original GWAS summary statistics.
 * Format these aligned, pruned GWAS summary statistics from all populations for each method and implement each method according to their respective repositories:
@@ -164,7 +164,7 @@ Repeat this procedure for each of the four subsampled training GWAS sets generat
 
 **Note**: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
 
-**Step 2.2: Obtain PRS combining weights**
+##### Step 2.2: Obtain PRS combining weights
 * Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **Section 4**.
   We assume the formatted subsampled tuning GWAS file is named as follows:
   `${output_path}/subsample/MIXPRS/${trait}_prune_snplist_1_${pop}_tune_MIXPRS_approxTRUE_ratio3.00_repeat${repeat}.txt`
@@ -198,7 +198,7 @@ Repeat this procedure for each of the four subsampled tuning GWAS sets generated
 #### Step3: Obtain MIXPRS
 This step includes two substeps:
 
-**Step 3.1: Obtain full SNPs PRS beta files**
+##### Step 3.1: Obtain full SNPs PRS beta files
 * Use the original GWAS summary statistics from all populations.
 * Format these original GWAS summary statistics according to the requirements of each method and implement each method following their respective repositories:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
@@ -211,7 +211,7 @@ After completing this step, you should obtain full SNPs beta files for each meth
 
 **Note**: The number of population-specific beta files depends on the availability of GWAS summary statistics for each population.
 
-**Step 3.2: Obtain MIXPRS**
+##### Step 3.2: Obtain MIXPRS
 * Use the original GWAS summary statistics for the target population formatted according to **Section 4: Summary Statistics Preparation**. This should match the file used in Step 1:
   ```
   ${summary_stat_path}/${trait}_${pop}_MIXPRS_sumstat.txt
