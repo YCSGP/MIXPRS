@@ -151,7 +151,7 @@ Example format of these generated files:
 #### Step2: MIX-PRS combining weights
 This step includes two substeps:
 
-**Step 2.1: Obtain LD-pruned PRS**
+**Step 2.1: Obtain LD-pruned PRS beta files**
 * Use the subsampled training GWAS for the target population obtained from **Step 1**.
 * For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics from their original GWAS summary statistics.
 * Format these aligned, pruned GWAS summary statistics from all populations for each method and implement each method according to their respective repositories:
@@ -172,7 +172,7 @@ Note: The number of population-specific beta files obtained depends on the avail
   * `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
   * `selection_criterion=NNLS`: employs the Lawson–Hanson Non-Negative Least Squares (NNLS) algorithm to estimate non-negative PRS combining weights.
 
-Run the following command to calculate the optimal PRS combining weights and repeat this step for each of the four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`):
+Run the following command to calculate the optimal PRS combining weights and repeat this step for each of the four subsampled tuning GWAS sets generated in **Step 1** with each of the corresponding LD-pruned PRS beta files obtained from **Step 2.1** (`repeat=1,2,3,4`):
 
 ```bash
 conda activate MIXPRS
@@ -195,7 +195,7 @@ This command generates four PRS combining weights files, named as follows (with 
 #### Step3: Obtain MIXPRS
 This step includes two substeps:
 
-**Step 3.1: Obtain full SNPs PRS**
+**Step 3.1: Obtain full SNPs PRS beta files**
 * Use the original GWAS summary statistics from all populations.
 * Format these original GWAS summary statistics according to the requirements of each method and implement each method following their respective repositories:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
