@@ -99,7 +99,7 @@ Example assumptions:
 * Formatted GWAS summary statistics `${trait}_${pop}_MIXPRS_sumstat.txt`. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
 #### Step1: MIX-GWAS subsampling
-This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles for the target population(`pop`).
+This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles for the target population (`pop`).
 
 The default parameters for subsampling are:
 * Requires a pruned SNP list (`--prune_snplist`) provided in the MIXPRS repository (`snplist` folder).
