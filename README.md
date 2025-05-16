@@ -89,8 +89,8 @@ Here
 ### 5. MIXPRS Implementation
 Below is a step-by-step guide to implementing MIXPRS:
 
-**Step1: MIX-GWAS subsampling**
+#### Step1: MIX-GWAS subsampling
 
-**Step2: MIX-PRS combining weights**
+#### Step2: MIX-PRS combining weights
 
-**Step3: Obtain MIXPRS**
+#### Step3: Obtain MIXPRS
