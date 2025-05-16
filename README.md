@@ -10,4 +10,6 @@ Detailed implementations of these two component methods are available at their r
 * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
 * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
-![MIXPRS Workflow](https://github.com/user-attachments/files/20256268/Figure1.pdf)
+<p align="center">
+  <img src="https://github.com/user-attachments/files/20256268/Figure1.pdf" alt="MIXPRS Workflow"/>
+</p>
