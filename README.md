@@ -107,7 +107,7 @@ The default parameters for subsampling are:
 * `train_tune_ratio=3`: divides the original GWAS dataset into subsampled training GWAS (3/4 of samples) and subsampled tuning GWAS (1/4 of samples).
 * `repeat=4`: generates four independent subsampled training-tuning GWAS pairs for robust evaluation.
 
-Below is an example command illustrating this step:
+Run the following command to subsample training and tuning GWAS:
 ```bash
 conda activate MIXPRS
 
@@ -122,14 +122,14 @@ python ${MIXPRS_path}/MIX_subsample2.py \
   --out_dir=${output_path}/subsample/clean \
   --out_name=${trait}_prune_snplist_1
 ```
-This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (with `repeat` from 1 to 4):  
+This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (`repeat=1,2,3,4`):  
 * **Subsampled training GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_train_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
 * **Subsampled tuning GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
-Example format of these generated files:  
+Example format of these generated subsampled GWAS files:  
 * **Subsampled training GWAS example**:
   ```
   SNP         CHR     BP      A1  A2  A1_Frq      BETA           SE           Z         P         N
@@ -158,7 +158,7 @@ This step includes two substeps:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
   * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
-Repeat this procedure for each of the four subsampled training GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain beta files similar to the following for each repeat:
+Repeat this procedure for each of the four subsampled training GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain beta files similar to the following for each repeat (`repeat=1,2,3,4`):
 * `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
 * `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
 Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
@@ -172,7 +172,7 @@ Note: The number of population-specific beta files obtained depends on the avail
   * `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
   * `selection_criterion=NNLS`: employs the Lawson–Hanson Non-Negative Least Squares (NNLS) algorithm to estimate non-negative PRS combining weights.
 
-Run the following command to calculate the optimal PRS combining weights and repeat this step for each of the four subsampled tuning GWAS sets generated in **Step 1** with each of the corresponding LD-pruned PRS beta files obtained from **Step 2.1** (`repeat=1,2,3,4`):
+Run the following command to calculate the optimal PRS combining weights:
 
 ```bash
 conda activate MIXPRS
@@ -188,9 +188,10 @@ python ${MIXPRS_path}/MIX_linear_weight.py \
   --out_name=${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}
 ```
 
-This command generates four PRS combining weights files, named as follows (with `repeat` from 1 to 4):
+Repeat this procedure for each of the four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`). After completing this step, you should obtain four PRS combining weights files, named as follows for each repeat (`repeat=1,2,3,4`):
 * **PRS combining weights**:
   `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
+Note: For each repeat (`repeat=1,2,3,4`), ensure you use the corresponding subsampled tuning GWAS dataset from **Step 1** along with its matching LD-pruned PRS beta file obtained from **Step 2.1**.
 
 #### Step3: Obtain MIXPRS
 This step includes two substeps:
