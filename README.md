@@ -1,5 +1,4 @@
 # MIXPRS
-
 MIXPRS is a data fission-based multi-population PRS integration framework designed to effectively combine PRS derived from multiple populations and methods. The MIXPRS pipeline requires **only GWAS summary statistics and LD reference panels**, and involves three main steps (Figure 1):
 
 * **Step1: MIX-GWAS subsampling**
@@ -40,8 +39,8 @@ conda activate MIXPRS
 ### 2. LD Reference Panel Download
 We use reference panels from [PRS-CSx](https://github.com/getian107/PRScsx#getting-started) and you can follow their instructions to download them. It is strongly recommended to create two subfolders within your reference directory:
 
-- **1KG**: This subfolder should contain LD reference panels constructed using the 1000 Genomes Project phase 3 samples and the corresponding SNP information file.
-- **UKBB**: This subfolder should contain LD reference panels constructed using the UK Biobank data and the corresponding SNP information file.
+* **1KG**: This subfolder should contain LD reference panels constructed using the 1000 Genomes Project phase 3 samples and the corresponding SNP information file.
+* **UKBB**: This subfolder should contain LD reference panels constructed using the UK Biobank data and the corresponding SNP information file.
 
 Then place the downloaded LD reference panels and the SNP information file into their corresponding subfolders.
 
@@ -77,29 +76,28 @@ rs9442372   A   G   0.00261076  0.00586576  0.445084694907   0.656  98059
 ```
 
 Here
-- `SNP`: SNP rsID.
--  `A1`: Effect allele.
--  `A2`: Alternative allele.
--  `BETA`: Effect size of allele A1, which is only used to determine the direction of an association.
--  `SE`: Standard error of the effect size.
--  `Z`: Z-score (BETA divided by SE).
--  `P`: P-value of the effect, which is used to calculate the standardized effect size.
--  `N`: GWAS sample size.
+* `SNP`: SNP rsID.
+*  `A1`: Effect allele.
+*  `A2`: Alternative allele.
+*  `BETA`: Effect size of allele A1, which is only used to determine the direction of an association.
+*  `SE`: Standard error of the effect size.
+*  `Z`: Z-score (BETA divided by SE).
+*  `P`: P-value of the effect size, which is used to calculate the standardized effect size.
+*  `N`: GWAS sample size.
 
 ### 5. MIXPRS Implementation
-Below is a step-by-step guide to implementing MIXPRS:
+In this section, we provide detailed, step-by-step instructions for implementing MIXPRS. Please replace all placeholders with the appropriate paths and filenames specific to your computing environment.
 
 #### Step 0: MIXPRS data preparation
+Before running MIXPRS, ensure these datasets are ready (see previous sections):
+* **LD Reference Panel (Section 2).**
+* **Pruned SNP List (Section 3).**
+* **GWAS Summary Statistics (Section 4).**
 
-Before running MIXPRS, ensure you have prepared the following datasets (see previous sections for detailed information):
-* **LD Reference Panel** (2. LD Reference Panel Download)
-* **Pruned SNP List** (3. Pruned SNP List Preparation)
-* **GWAS Summary Statistics** (4. Summary Statistics Preparation)
-
-In the following example commands, we assume:
-* You are using the **1KG LD reference panel** downloaded as recommended.
-* The precomputed pruned SNP list provided within the cloned MIXPRS repository (`snplist` folder) is used.
-* GWAS summary statistics are formatted as `${trait}_${pop}_MIXPRS_sumstat.txt`, following the required format specified previously. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
+Example assumptions:
+* 1KG LD panel used.
+* Precomputed pruned SNP lists from MIXPRS repository (`snplist`).
+* Formatted GWAS summary statistics `${trait}_${pop}_MIXPRS_sumstat.txt`. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
 #### Step1: MIX-GWAS subsampling
 This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles.
@@ -110,7 +108,7 @@ The default parameters for subsampling are:
 * `train_tune_ratio=3`: divides the original GWAS dataset into subsampled training GWAS (3/4 of samples) and subsampled tuning GWAS (1/4 of samples).
 * `repeat=4`: generates four independent subsampled training-tuning GWAS pairs for robust evaluation.
 
-Below is an example command illustrating this step. Replace `${MIXPRS_path}`, `${ref_data_path}`, `${summary_stat_path}`, `${pop}`, `${trait}`, and `${output_path}` with your actual paths and filenames:
+Below is an example command illustrating this step:
 ```bash
 conda activate MIXPRS
 
@@ -126,15 +124,13 @@ python ${MIXPRS_path}/MIX_subsample2.py \
   --out_name=${trait}_prune_snplist_1
 ```
 This command generates four pairs of independent subsampled training and tuning GWAS summary statistics files, named as follows (with `repeat` from 1 to 4):
-
 * **Subsampled training GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_train_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
 * **Subsampled tuning GWAS**:
   `${output_path}/subsample/clean/${trait}_prune_snplist_1_${pop}_tune_GWAS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 
-Example format of these generated files (first three lines shown):
-
+Example format of these generated files:
 **Subsampled training GWAS example**:
 
 ```
@@ -155,15 +151,13 @@ rs1806509   1       853954  C   A   4.137e-01   1.163264e-03  1.256812e-02  9.25
 ...
 ```
 
-Ensure all placeholders match your actual directory structure and filenames.
-
 #### Step2: MIX-PRS combining weights
 This step includes two substeps:
 
 **Step 2.1: Obtain LD-pruned PRS**
 * Use the subsampled training GWAS for the target population obtained from **Step 1**.
 * For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics from their original GWAS summary statistics.
-* Format these aligned, pruned GWAS summary statistics for each method and implement each method according to their respective repositories:
+* Format these aligned, pruned GWAS summary statistics from all populations for each method and implement each method according to their respective repositories:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
   * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
@@ -173,7 +167,7 @@ Repeat this procedure for each of the four subsampled training GWAS sets generat
 Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
 
 **Step 2.2: Obtain PRS combining weights**
-* Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **4. Summary Statistics Preparation**.
+* Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **Section 4**.
   We assume the formatted subsampled tuning GWAS file is named as follows:
   `${output_path}/subsample/MIXPRS/${trait}_prune_snplist_1_${pop}_tune_MIXPRS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 * Use the LD-pruned PRS (beta files) obtained from **Step 2.1**.
@@ -181,7 +175,7 @@ Note: The number of population-specific beta files obtained depends on the avail
   * `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
   * `selection_criterion=NNLS`: employs the Lawson–Hanson Non-Negative Least Squares (NNLS) algorithm to estimate non-negative PRS combining weights.
 
-Run the following command to calculate the optimal PRS combining weights. Replace placeholders with your actual paths and filenames, and repeat this step for each of the four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`):
+Run the following command to calculate the optimal PRS combining weights and repeat this step for each of the four subsampled tuning GWAS sets generated in **Step 1** (`repeat=1,2,3,4`):
 
 ```bash
 conda activate MIXPRS
@@ -200,17 +194,13 @@ python ${MIXPRS_path}/MIX_linear_weight.py \
 This command generates four PRS combining weights files, named as follows (with `repeat` from 1 to 4):
 * **PRS combining weights**:
   `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
-Note: Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your directory structure and filenames.
 
 #### Step3: Obtain MIXPRS
-
 This step includes two substeps:
 
 **Step 3.1: Obtain full SNPs PRS**
-
 * Use the original GWAS summary statistics from all populations.
 * Format these original GWAS summary statistics according to the requirements of each method and implement each method following their respective repositories:
-
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
   * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
@@ -222,25 +212,20 @@ After completing this step, you should obtain full SNP beta files for each metho
 Note: The number of population-specific beta files depends on the availability of GWAS summary statistics for each population.
 
 **Step 3.2: Obtain MIXPRS**
-
 * Use the original GWAS summary statistics for the target population formatted according to **Section 4: Summary Statistics Preparation**. This should match the file used in Step 1:
-
   ```
   ${summary_stat_path}/${trait}_${pop}_MIXPRS_sumstat.txt
   ```
-
 * Use the calculated PRS combining weights obtained in **Step 2.2**, named as follows:
-
   ```bash
   weight_file1="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat1_${pop}_non_negative_linear_weights_approxTRUE.txt"
   weight_file2="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat2_${pop}_non_negative_linear_weights_approxTRUE.txt"
   weight_file3="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat3_${pop}_non_negative_linear_weights_approxTRUE.txt"
   weight_file4="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat4_${pop}_non_negative_linear_weights_approxTRUE.txt"
   ```
-
 * Use the full SNP PRS beta files obtained from **Step 3.1**.
 
-Run the following command to obtain the final MIXPRS (replace placeholders with your actual paths and filenames):
+Run the following command to obtain the final MIXPRS:
 
 ```bash
 conda activate MIXPRS
@@ -264,10 +249,7 @@ This command produces two results files in the specified output directory (`${ou
   ```
   ${output_path}/MIXPRS/${trait}_${pop}_MIXPRS_separate.txt
   ```
-
-Note: 
-* Ensure the order and naming of `--prs_beta_file` are consistent between Step 2.2 and Step 3.2.
-* Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${summary_stat_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your actual directory structure and filenames.
+Note: Ensure the order and naming of `--prs_beta_file` are consistent between Step 2.2 and Step 3.2.
 
 ## Acknowledgment
 Part of the code is adapted from [PRS-CSx](https://github.com/getian107/PRScsx/tree/master). We thank Dr. Tian Ge for sharing his code and LD reference panels.
