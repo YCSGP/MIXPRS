@@ -102,6 +102,30 @@ In the following example commands, we assume:
 * GWAS summary statistics are formatted as `${trait}_${pop}_MIXPRS_sumstat.txt`, following the required format specified previously. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
 #### Step1: MIX-GWAS subsampling
+This step partitions a single original GWAS dataset into independent training and tuning GWAS datasets using data fission principles.
+
+The default parameters for subsampling are:
+* Requires a pruned SNP list (`--prune_snplist`) provided in the MIXPRS repository (`snplist` folder).
+* `indep_approx=TRUE`: uses an identity covariance matrix for the pruned SNPs instead of LD reference panels (the `--ref_dir` flag is still required).
+* `train_tune_ratio=3`: divides the original GWAS dataset into training (3/4 of samples) and tuning (1/4 of samples) subsets.
+* `repeat=4`: generates four independent training-tuning GWAS summary statistics pairs for robust evaluation.
+
+Below is an example command illustrating this step. Replace `${MIXPRS_path}`, `${ref_data_path}`, `${summary_stats}`, `${pop}`, `${trait}`, and `${output_path}` with your actual paths and filenames:
+```bash
+conda activate MIXPRS
+
+python ${MIXPRS_path}/MIX_subsample2.py \
+  --ref_dir=${ref_data_path}/1KG \
+  --sst_file=${summary_stats}/${trait}_${pop}_MIXPRS_sumstat.txt \
+  --pop=${pop} \
+  --prune_snplist=${MIXPRS_path}/snplist/${pop}_prune_pval1_r20.5_wc250_1.snplist \
+  --indep_approx=TRUE \
+  --train_tune_ratio=3 \
+  --repeat=4 \
+  --out_dir=${output_path}/subsample/clean \
+  --out_name=${trait}_prune_snplist_1
+```
+Ensure all placeholders match your actual directory structure and filenames.
 
 
 #### Step2: MIX-PRS combining weights
