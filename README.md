@@ -204,7 +204,7 @@ This step includes two substeps:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
   * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
-After completing this step, you should obtain full SNP beta files for each method and population, such as:
+After completing this step, you should obtain full SNPs beta files for each method and population, such as:
 
 * `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
 * `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
@@ -223,7 +223,7 @@ After completing this step, you should obtain full SNP beta files for each metho
   weight_file3="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat3_${pop}_non_negative_linear_weights_approxTRUE.txt"
   weight_file4="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat4_${pop}_non_negative_linear_weights_approxTRUE.txt"
   ```
-* Use the full SNP PRS beta files obtained from **Step 3.1**.
+* Use the full SNPs PRS beta files obtained from **Step 3.1**.
 
 Run the following command to obtain the final MIXPRS:
 
