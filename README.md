@@ -101,7 +101,7 @@ In the following example commands, we assume:
 * The precomputed pruned SNP list provided within the cloned MIXPRS repository (`snplist` folder) is used.
 * GWAS summary statistics are formatted as `${trait}_${pop}_MIXPRS_sumstat.txt`, following the required format specified previously. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
-#### Step 1: MIX-GWAS subsampling
+#### Step1: MIX-GWAS subsampling
 This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles.
 
 The default parameters for subsampling are:
@@ -158,11 +158,10 @@ rs1806509   1       853954  C   A   4.137e-01   1.163264e-03  1.256812e-02  9.25
 Ensure all placeholders match your actual directory structure and filenames.
 
 #### Step2: MIX-PRS combining weights
-
 This step includes two substeps:
 
 **Step 2.1: Obtain LD-pruned PRS**
-* First, use the subsampled training GWAS for the target population obtained from **Step 1**.
+* Use the subsampled training GWAS for the target population obtained from **Step 1**.
 * For GWAS from other populations, apply the LD-pruned SNP list from the **target population** (instead of their original populations) to filter and obtain LD-pruned GWAS summary statistics from their original GWAS summary statistics.
 * Format these aligned, pruned GWAS summary statistics for each method and implement each method according to their respective repositories:
   * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
@@ -174,7 +173,7 @@ Repeat this procedure for each of the four subsampled training GWAS sets generat
 Note: The number of population-specific beta files obtained depends on the availability of GWAS summary statistics for each population.
 
 **Step 2.2: Obtain PRS combining weights**
-* Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **Section 4: Summary Statistics Preparation**.
+* Use the subsampled tuning GWAS and format them according to the required MIXPRS summary statistics format detailed in **4. Summary Statistics Preparation**.
   We assume the formatted subsampled tuning GWAS file is named as follows:
   `${output_path}/subsample/MIXPRS/${trait}_prune_snplist_1_${pop}_tune_MIXPRS_approxTRUE_ratio3.00_repeat${repeat}.txt`
 * Use the LD-pruned PRS (beta files) obtained from **Step 2.1**.
@@ -198,11 +197,107 @@ python ${MIXPRS_path}/MIX_linear_weight.py \
   --out_name=${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}
 ```
 
-Upon completion, the command will generate PRS combining weights files for each repeat, named as follows:
-```
-${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt
-```
+This command generates four PRS combining weights files, named as follows (with `repeat` from 1 to 4):
+* **PRS combining weights**:
+  `${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat${repeat}_${pop}_non_negative_linear_weights_approxTRUE.txt`
+Note: Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your directory structure and filenames.
 
-Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your directory structure and filenames.
+The current **Step 3** is clear and well-organized, but here are some improvements to further enhance clarity and usability:
+
+---
+
+### Suggested improvements for **Step 3**:
+
+**1. Explicitly clarify file naming and consistency**:
+Clearly state that users should maintain the same naming convention and order of beta files and weights files in Step 2 and Step 3.
+
+**2. Clarify repeated commands**:
+You mentioned "after repeating the command four times," but actually, the provided command uses all four weight files simultaneously. Clarify if repeating four times is still necessary. If not, remove this sentence to prevent confusion.
+
+**3. Clearly specify output files**:
+Emphasize the paths explicitly for clarity, as done previously.
+
+**4. Typo corrections**:
+
+* Fix minor typos:
+
+  * "calcualted" → "calculated"
+  * "prs\_beta\_fil" → "prs\_beta\_file"
+  * "orginal" → "original"
+
+---
+
+### Revised **Step 3** incorporating suggested improvements:
 
 #### Step3: Obtain MIXPRS
+
+This step includes two substeps:
+
+**Step 3.1: Obtain full SNPs PRS**
+
+* Use the original GWAS summary statistics from all populations.
+* Format these original GWAS summary statistics according to the requirements of each method and implement each method following their respective repositories:
+
+  * [JointPRS-auto](https://github.com/LeqiXu/JointPRS)
+  * [SDPRX](https://github.com/eldronzhou/SDPRX)
+
+After completing this step, you should obtain full SNP beta files for each method and population, such as:
+
+* `${JointPRS_EUR_beta_file}`, `${JointPRS_EAS_beta_file}`, `${JointPRS_AFR_beta_file}`, `${JointPRS_SAS_beta_file}`, `${JointPRS_AMR_beta_file}`
+* `${SDPRX_EUR_beta_file}`, `${SDPRX_EAS_beta_file}`, `${SDPRX_AFR_beta_file}`, `${SDPRX_SAS_beta_file}`, `${SDPRX_AMR_beta_file}`
+
+Note: The number of population-specific beta files depends on the availability of GWAS summary statistics for each population.
+
+**Step 3.2: Obtain MIXPRS**
+
+* Use the original GWAS summary statistics for the target population formatted according to **Section 4: Summary Statistics Preparation**. This should match the file used in Step 1:
+
+  ```
+  ${summary_stat_path}/${trait}_${pop}_MIXPRS_sumstat.txt
+  ```
+
+* Use the calculated PRS combining weights obtained in **Step 2.2**, named as follows:
+
+  ```bash
+  weight_file1="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat1_${pop}_non_negative_linear_weights_approxTRUE.txt"
+  weight_file2="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat2_${pop}_non_negative_linear_weights_approxTRUE.txt"
+  weight_file3="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat3_${pop}_non_negative_linear_weights_approxTRUE.txt"
+  weight_file4="${output_path}/Final_weight/no_val/${trait}_prune_snplist_1_JointPRS_SDPRX_EUR_EAS_AFR_SAS_AMR_repeat4_${pop}_non_negative_linear_weights_approxTRUE.txt"
+  ```
+
+* Use the full SNP PRS beta files obtained from **Step 3.1**.
+
+Run the following command to obtain the final MIXPRS (replace placeholders with your actual paths and filenames):
+
+```bash
+conda activate MIXPRS
+
+python ${MIXPRS_path}/MIX_final_combine.py \
+  --ref_dir=${ref_data_path}/1KG \
+  --sst_file=${summary_stat_path}/${trait}_${pop}_MIXPRS_sumstat.txt \
+  --pop=${pop} \
+  --prs_beta_file=${JointPRS_EUR_beta_file},${JointPRS_EAS_beta_file},${JointPRS_AFR_beta_file},${JointPRS_SAS_beta_file},${JointPRS_AMR_beta_file},${SDPRX_EUR_beta_file},${SDPRX_EAS_beta_file},${SDPRX_AFR_beta_file},${SDPRX_SAS_beta_file},${SDPRX_AMR_beta_file} \
+  --weight_file=${weight_file1},${weight_file2},${weight_file3},${weight_file4} \
+  --out_dir=${output_path}/MIXPRS \
+  --out_name=${trait}
+```
+
+This command produces two results files in the specified output directory (`${output_path}/MIXPRS`):
+* **Final MIXPRS beta**:
+  ```
+  ${output_path}/MIXPRS/${trait}_${pop}_MIXPRS.txt
+  ```
+* **Weighted PRS beta for each method and population**:
+  ```
+  ${output_path}/MIXPRS/${trait}_${pop}_MIXPRS_separate.txt
+  ```
+
+Note: 
+* Ensure the order and naming of `--prs_beta_file` are consistent between Step 2.2 and Step 3.2.
+* Ensure all placeholders (`${MIXPRS_path}`, `${ref_data_path}`, `${output_path}`, `${summary_stat_path}`, `${pop}`, `${trait}`, `${repeat}`, `${JointPRS_*_beta_file}`, `${SDPRX_*_beta_file}`) accurately reflect your actual directory structure and filenames.
+
+## Acknowledgment
+Part of the code is adapted from [PRS-CSx](https://github.com/getian107/PRScsx/tree/master). We thank Dr. Tian Ge for sharing his code and LD reference panels.
+
+## Support
+Please direct any problems or questions to Leqi Xu (leqi.xu@yale.edu).
