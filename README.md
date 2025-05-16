@@ -89,6 +89,18 @@ Here
 ### 5. MIXPRS Implementation
 Below is a step-by-step guide to implementing MIXPRS:
 
+#### Step 0: MIXPRS data preparation
+
+Before running MIXPRS, ensure you have prepared the following datasets (see previous sections for detailed information):
+* **LD Reference Panel** (2. LD Reference Panel Download)
+* **Pruned SNP List** (3. Pruned SNP List Preparation)
+* **GWAS Summary Statistics** (4. Summary Statistics Preparation)
+
+In the following example commands, we assume:
+* You are using the **1KG LD reference panel** downloaded as recommended.
+* The precomputed pruned SNP list provided within the cloned MIXPRS repository (`snplist` folder) is used.
+* GWAS summary statistics are formatted as `${trait}_${pop}_MIXPRS_sumstat.txt`, following the required format specified previously. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
+
 #### Step1: MIX-GWAS subsampling
 
 
