@@ -39,8 +39,21 @@ conda activate MIXPRS
 ### 2. LD Reference Panel Download
 We use reference panels from [PRS-CSx](https://github.com/getian107/PRScsx#getting-started) and you can follow their instructions to download them. It is strongly recommended to create two subfolders within your reference directory:
 
-* **1KG**: This subfolder should contain LD reference panels constructed using the 1000 Genomes Project phase 3 samples and the corresponding SNP information file.
-* **UKBB**: This subfolder should contain LD reference panels constructed using the UK Biobank data and the corresponding SNP information file.
+* **1KG**: This subfolder should contain LD reference panels constructed using the 1000 Genomes Project phase 3 samples and the corresponding SNP information file. Specifically, include:
+
+  * `snpinfo_mult_1kg_hm3`
+  * Population-specific directories (`ldblk_1kg_afr`, `ldblk_1kg_amr`, `ldblk_1kg_eas`, `ldblk_1kg_eur`, `ldblk_1kg_sas`), each containing:
+
+    * `ldblk_1kg_chr1.hdf5` through `ldblk_1kg_chr22.hdf5`
+    * `snpinfo_1kg_hm3`
+
+* **UKBB**: This subfolder should contain LD reference panels constructed using the UK Biobank data and the corresponding SNP information file. Specifically, include:
+
+  * `snpinfo_mult_ukbb_hm3`
+  * Population-specific directories (`ldblk_ukbb_afr`, `ldblk_ukbb_amr`, `ldblk_ukbb_eas`, `ldblk_ukbb_eur`, `ldblk_ukbb_sas`), each containing:
+
+    * `ldblk_ukbb_chr1.hdf5` through `ldblk_ukbb_chr22.hdf5`
+    * `snpinfo_ukbb_hm3`
 
 Then place the downloaded LD reference panels and the SNP information file into their corresponding subfolders.
 
