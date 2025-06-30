@@ -5,13 +5,13 @@ MIXPRS is a data fission-based multi-population PRS integration framework design
 
 The MIXPRS pipeline requires **only GWAS summary statistics and LD reference panels**, and involves three main steps (Figure 1):
 
-* **Step1: MIX-GWAS subsampling**  
+* **Step1: GWAS subsampling in MIXPRS**  
   Generate independent subsampled training and tuning GWAS datasets.
 
-* **Step2: MIX-PRS combining weights**  
+* **Step2: Estimation of MIXPRS combination weights for different PRS methods**  
   Estimate combining weights using two component methods, **JointPRS-auto** and **SDPRX**, each requiring only GWAS summary statistics and LD reference panels.
 
-* **Step3: Obtain MIXPRS**  
+* **Step3: Derivation of MIXPRS**  
   Calculate the integrated MIXPRS using weights estimated in Step 2.
 
 Detailed implementations of these component methods are available in their respective repositories:
@@ -20,7 +20,7 @@ Detailed implementations of these component methods are available in their respe
 * [SDPRX](https://github.com/eldronzhou/SDPRX)
 
 <p align="center">
-  <img src="https://github.com/user-attachments/files/20256268/Figure1.pdf" alt="MIXPRS Workflow"/>
+  <img src="https://github.com/user-attachments/files/20983662/Figure1.pdf" alt="MIXPRS Workflow"/>
 </p>
 
 For full details of codes, see the [MIXPRS_analysis repository](https://github.com/LeqiXu/MIXPRS_analysis).
@@ -117,7 +117,7 @@ Example assumptions:
 * Precomputed pruned SNP lists from MIXPRS repository (`snplist`).
 * Formatted GWAS summary statistics `${trait}_${pop}_MIXPRS_sumstat.txt`. We provide an example summary statistics dataset for EAS HDL (500 SNPs on chromosome 1) within the cloned MIXPRS repository (`example_data` folder), obtained from [GLGC](https://csg.sph.umich.edu/willer/public/glgc-lipids2021/).
 
-#### Step1: MIX-GWAS subsampling
+#### Step1: GWAS subsampling in MIXPRS
 This step partitions a single original GWAS dataset into independent subsampled training and tuning GWAS datasets using data fission principles for the target population (`pop`).
 
 The default parameters for subsampling are:
@@ -167,7 +167,7 @@ Example format of these generated subsampled GWAS files:
   ...
   ```
 
-#### Step2: MIX-PRS combining weights
+#### Step2: Estimation of MIXPRS combination weights for different PRS methods
 This step includes two substeps:
 
 ##### Step 2.1: Obtain LD-pruned PRS beta files
@@ -214,7 +214,7 @@ Repeat this procedure for each of the four subsampled tuning GWAS sets generated
 
 **Note**: For each repeat (`repeat=1,2,3,4`), ensure you use the corresponding subsampled tuning GWAS dataset from **Step 1** along with its matching LD-pruned PRS beta file obtained from **Step 2.1**.
 
-#### Step3: Obtain MIXPRS
+#### Step3: Derivation of MIXPRS
 This step includes two substeps:
 
 ##### Step 3.1: Obtain full SNPs PRS beta files
