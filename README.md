@@ -23,6 +23,8 @@ Detailed implementations of these component methods are available in their respe
   <img src="https://github.com/user-attachments/files/20256268/Figure1.pdf" alt="MIXPRS Workflow"/>
 </p>
 
+For full details of codes, see the [MIXPRS_analysis repository](https://github.com/LeqiXu/MIXPRS_analysis).
+
 ## Getting Started
 In this section, we provide detailed, step-by-step instructions for implementing MIXPRS. Please replace all placeholders with the appropriate paths and filenames specific to your computing environment.
 
